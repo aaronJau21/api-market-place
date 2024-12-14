@@ -30,6 +30,9 @@ class UserRepostory implements UserRepositoriesInterface
 
   public function getUsers()
   {
-    return $this->model->all();
+    $user = $this->model->all();
+    return response()->json([
+      'users' => $user
+    ]);
   }
 }

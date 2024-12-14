@@ -31,4 +31,10 @@ class UserController extends Controller
       throw new InternalServerExcepion($e);
     }
   }
+
+  public function getUsers(): JsonResponse
+  {
+    $users = $this->repository->getUsers();
+    return $users;
+  }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Eloquent\Auth;
 
+use App\Exceptions\BadRequestException;
+use App\Exceptions\NotPermissionException;
 use App\Exceptions\UnAuthorizeException;
 use App\Models\User;
 use App\Repositories\Interfaces\Auth\AuthRepositoriesInterface;
@@ -22,10 +24,13 @@ class AuthRepositories implements AuthRepositoriesInterface
     if (! $token = Auth::attempt($credentials)) {
       throw new UnAuthorizeException('Credenciales Incorrectas');
     }
+    $user = $this->model->where('email', $data['email'])->first();
+    if (!$user->confirm_count) throw new  BadRequestException('Falta confirmar el correo, ingrese a su correo');
+    if (!$user->status) throw new  NotPermissionException('No esta permitido');
 
     return response()->json([
       'token' => $token,
-      'user' => $this->model->where('email', $data['email'])->first()
+      'user' => $user
     ], 200);
   }
 }

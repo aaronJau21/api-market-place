@@ -21,7 +21,7 @@ class AuthRepositories implements AuthRepositoriesInterface
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = Auth::attempt($credentials)) {
+        if (! $token = Auth::guard('api')->attempt($credentials)) {
             throw new UnAuthorizeException('Credenciales Incorrectas');
         }
         $user = $this->model->where('email', $data['email'])->first();

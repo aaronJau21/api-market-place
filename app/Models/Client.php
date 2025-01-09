@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Client extends Model
+class Client extends Model implements JWTSubject
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'full_name',
@@ -16,6 +18,16 @@ class Client extends Model
         'address',
         'password'
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
     protected $hidden = [
         'password',

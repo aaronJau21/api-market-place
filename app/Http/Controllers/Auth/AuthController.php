@@ -10,18 +10,25 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-  protected $repository;
+    protected $repository;
 
-  public function __construct(AuthRepositoriesInterface $authRepositoriesInterface)
-  {
-    $this->repository = $authRepositoriesInterface;
-  }
+    public function __construct(AuthRepositoriesInterface $authRepositoriesInterface)
+    {
+        $this->repository = $authRepositoriesInterface;
+    }
 
 
-  public function login(LoginRequest $request)
-  {
-    $data = $request->validated();
-    $login = $this->repository->login($data);
-    return $login;
-  }
+    public function login(LoginRequest $request)
+    {
+        $data = $request->validated();
+        $login = $this->repository->login($data);
+        return $login;
+    }
+
+    public function loginClient(LoginRequest $request)
+    {
+        $data = $request->validated();
+        $login = $this->repository->loginClient($data);
+        return $login;
+    }
 }

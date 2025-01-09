@@ -26,4 +26,12 @@ class SellerController extends Controller
             'seller' => $seller
         ], 201);
     }
+
+    public function getSeller(int $user_id): JsonResponse
+    {
+        $seller = $this->repository->getSeller($user_id);
+        return response()->json([
+            'seller' => $seller
+        ], 200);
+    }
 }

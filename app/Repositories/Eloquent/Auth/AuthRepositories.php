@@ -37,4 +37,24 @@ class AuthRepositories implements AuthRepositoriesInterface
             ]
         ], 200);
     }
+
+    public function loginClient(array $data)
+    {
+        $credentials = request(['email', 'password']);
+        if (!$token = Auth::guard('client')->attempt($credentials)) {
+            throw new UnAuthorizeException('Credenciales Incorrectas');
+        }
+        $user = $this->model->where('email', $data['email'])->first();
+        if (!$user->confirm_count) throw new  BadRequestException('Falta confirmar el correo, ingrese a su correo');
+        if (!$user->status) throw new  NotPermissionException('No esta permitido');
+
+        return response()->json([
+            'token' => $token,
+            'user' => [
+                'name' => $user->full_name,
+                'email' => $user->email,
+                'role' => $user->role,
+            ]
+        ], 200);
+    }
 }

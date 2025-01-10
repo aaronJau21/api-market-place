@@ -31,6 +31,7 @@ class AuthRepositories implements AuthRepositoriesInterface
         return response()->json([
             'token' => $token,
             'user' => [
+                'id' => $user->id,
                 'name' => $user->full_name,
                 'email' => $user->email,
                 'role' => $user->role,
@@ -51,6 +52,7 @@ class AuthRepositories implements AuthRepositoriesInterface
         return response()->json([
             'token' => $token,
             'user' => [
+                'id' => $user->id,
                 'name' => $user->full_name,
                 'email' => $user->email,
                 'role' => $user->role,

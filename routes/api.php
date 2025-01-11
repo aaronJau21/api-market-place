@@ -13,6 +13,7 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('users')->middleware('jwt')->group(function () {
     Route::get('/', [UserController::class, 'getUsers']);
+    Route::get('/{id}', [UserController::class, 'getUser']);
     Route::prefix('seller')->group(function () {
         Route::post('/', [SellerController::class, 'createSeller']);
         Route::get('/{user_id}', [SellerController::class, 'getSeller']);

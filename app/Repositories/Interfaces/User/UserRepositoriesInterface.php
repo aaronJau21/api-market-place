@@ -6,6 +6,7 @@ use App\Models\User;
 
 interface UserRepositoriesInterface
 {
-  public function createUser(array $data): User;
-  public function getUsers();
+    public function createUser(array $data): User;
+    public function getUsers();
+    public function getUser(int $id);
 }

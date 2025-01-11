@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent\User;
 
 use App\Exceptions\BadRequestException;
+use App\Exceptions\NotFoundException;
 use App\Models\User;
 use App\Repositories\Interfaces\User\SellerRepositoriesInterface;
 use App\Repositories\Interfaces\User\UserRepositoriesInterface;
@@ -40,6 +41,17 @@ class UserRepostory implements UserRepositoriesInterface
         $user = $this->model->all();
         return response()->json([
             'users' => $user
+        ]);
+    }
+
+    public function getUser(int $id)
+    {
+        $user = $this->model->find($id);
+
+        if (!$user) throw new NotFoundException('No se encuentra el usuario');
+
+        return response()->json([
+            'user' => $user
         ]);
     }
 }

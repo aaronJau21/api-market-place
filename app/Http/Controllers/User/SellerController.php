@@ -29,7 +29,7 @@ class SellerController extends Controller
 
     public function getSeller(int $user_id): JsonResponse
     {
-        $seller = $this->repository->getSeller($user_id);
+        $seller = $this->repository->getSeller($user_id)->first();
         return response()->json([
             'seller' => $seller
         ], 200);

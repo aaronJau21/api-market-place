@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Client extends Model implements JWTSubject
+class Client extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
@@ -16,7 +16,8 @@ class Client extends Model implements JWTSubject
         'email',
         'phone',
         'address',
-        'password'
+        'password',
+        'confirm_count'
     ];
 
     public function getJWTIdentifier()

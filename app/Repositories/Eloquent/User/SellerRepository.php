@@ -28,7 +28,7 @@ class SellerRepository implements SellerRepositoriesInterface
 
     public function getSeller(int $user_id): Seller
     {
-        $seller = $this->model->find($user_id);
+        $seller = $this->model->where('user_id', $user_id)->first();
         if (!$seller) throw new NotFoundException('No existe la tienda');
         return $seller;
     }

@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent\Auth;
 use App\Exceptions\BadRequestException;
 use App\Exceptions\NotPermissionException;
 use App\Exceptions\UnAuthorizeException;
+use App\Models\Client;
 use App\Models\User;
 use App\Repositories\Interfaces\Auth\AuthRepositoriesInterface;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +13,11 @@ use Illuminate\Support\Facades\Auth;
 class AuthRepositories implements AuthRepositoriesInterface
 {
     protected $model;
-    public function __construct(User $model)
+    protected $modelClient;
+    public function __construct(User $model, Client $modelClient)
     {
         $this->model = $model;
+        $this->modelClient = $modelClient;
     }
 
     public function login(array $data)
@@ -45,7 +48,8 @@ class AuthRepositories implements AuthRepositoriesInterface
         if (!$token = Auth::guard('client')->attempt($credentials)) {
             throw new UnAuthorizeException('Credenciales Incorrectas');
         }
-        $user = $this->model->where('email', $data['email'])->first();
+        $user = $this->modelClient->where('email', $data['email'])->first();
+        if (!$user) throw new BadRequestException('Usuario no encontrado');
         if (!$user->confirm_count) throw new  BadRequestException('Falta confirmar el correo, ingrese a su correo');
         if (!$user->status) throw new  NotPermissionException('No esta permitido');
 
@@ -55,7 +59,6 @@ class AuthRepositories implements AuthRepositoriesInterface
                 'id' => $user->id,
                 'name' => $user->full_name,
                 'email' => $user->email,
-                'role' => $user->role,
             ]
         ], 200);
     }

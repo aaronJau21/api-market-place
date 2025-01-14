@@ -19,17 +19,13 @@ class UserController extends Controller
 
     public function createUser(UserCreateRequest $request): JsonResponse
     {
-        try {
-            $data = $request->validated();
-            $user = $this->repository->createUser($data);
+        $data = $request->validated();
+        $user = $this->repository->createUser($data);
 
-            return response()->json([
-                'message' => 'User created successfully',
-                'data' => $user
-            ], 201);
-        } catch (\Exception $e) {
-            throw new InternalServerExcepion($e);
-        }
+        return response()->json([
+            'message' => 'User created successfully',
+            'data' => $user
+        ], 201);
     }
 
     public function getUsers(): JsonResponse

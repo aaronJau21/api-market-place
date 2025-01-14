@@ -16,8 +16,11 @@ return new class extends Migration
             $table->string('full_name')->unique();
             $table->string('email')->unique();
             $table->string('phone')->unique();
+            $table->boolean('confirm_count')->default(false);
             $table->string('address');
             $table->string('password');
+            $table->string('token')->nullable();
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\User\SellerController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -17,5 +18,12 @@ Route::prefix('users')->middleware('jwt')->group(function () {
     Route::prefix('seller')->group(function () {
         Route::post('/', [SellerController::class, 'createSeller']);
         Route::get('/{user_id}', [SellerController::class, 'getSeller']);
+    });
+});
+
+
+Route::prefix('products')->middleware('jwt')->group(function () {
+    Route::prefix('category')->group(function () {
+        Route::post('/', [CategoryController::class, 'createCategory']);
     });
 });
